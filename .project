@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>communication</name>
+			<type>2</type>
+			<location>/home/frank/Dropbox/Eclipse/Discord/TextAdventureBot/bin/lua/communication</location>
+		</link>
+	</linkedResources>
 </projectDescription>

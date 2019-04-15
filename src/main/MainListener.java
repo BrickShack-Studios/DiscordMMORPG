@@ -1,6 +1,8 @@
 package main;
 
 import entity.Player;
+import lua.Parser;
+import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -18,7 +20,6 @@ public class MainListener extends ListenerAdapter
 			return;
 		}
 			
-		
 		Message message = event.getMessage();
 		MessageChannel channel = event.getChannel();
 		String content = message.getContentRaw();
@@ -27,6 +28,12 @@ public class MainListener extends ListenerAdapter
 		{
 			System.out.println("Received a command: " + content);
 			parseMessage(event, channel, message, content);
+		}
+		else if (event.getChannel().getType() == ChannelType.PRIVATE)
+		{
+			System.out.println("Received DM from " + 
+					event.getAuthor().getName() + ":\n\t" +
+					event.getMessage().getContentRaw());
 		}
 			
 		
@@ -74,6 +81,15 @@ public class MainListener extends ListenerAdapter
 				break;
 				
 			case "go":
+				break;
+				
+			case "cast":
+				if (!World.registered(id))
+				{
+					channel.sendMessage("Please register first with `> register`!").queue();
+					break;
+				}
+				Parser.run(Parser.extractCode(content));
 				break;
 				
 			default:

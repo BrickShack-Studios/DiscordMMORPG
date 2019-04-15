@@ -1,5 +1,8 @@
 package main;
 
+import java.net.URL;
+import java.net.URLClassLoader;
+
 import javax.security.auth.login.LoginException;
 
 import lua.Parser;
@@ -16,7 +19,7 @@ public class Main
 		
 		try 
 		{
-			api = new JDABuilder("token here")
+			api = new JDABuilder("Token")
 					.addEventListener(new MainListener())
 					.build();
 		} 
@@ -26,6 +29,16 @@ public class Main
 		}
 		
 		World.init(api);
-		//Parser.run("print 'Yo'");
+		//Parser.run("");
+		
+
+		System.out.println("Classpaths: ");
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+        for(URL url: urls){
+        	System.out.println(url.getFile());
+        }
 	}
 }
