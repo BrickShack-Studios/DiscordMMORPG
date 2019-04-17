@@ -1,7 +1,11 @@
 package main;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.security.auth.login.LoginException;
 
@@ -20,6 +24,25 @@ import world.World;
 public class Main 
 {
 	/**
+	 * Loads in the bot token from the `key` file. Prevents the token
+	 * from being anywhere in the code.
+	 * 
+	 * @return The token, if found. Otherwise, an empty string.
+	 */
+	private static String getKey()
+	{
+		String key  = "";
+		
+		try
+		{
+			key = Files.readAllLines(Paths.get("key")).get(0);
+		} 
+		catch (IOException e) {}
+		
+		return key;
+	}
+	
+	/**
 	 * Connects the bot to the Discord servers and then initializes the world.
 	 * @param args	Unusued launch arguments
 	 * 
@@ -29,10 +52,17 @@ public class Main
 	public static void main(String[] args)
 	{
 		JDA api = null;
+		String key = getKey();
+		
+		if (key.isEmpty())
+		{
+			System.out.println("Keyfile not found!");
+			return;
+		}
 		
 		try 
 		{
-			api = new JDABuilder("Token")
+			api = new JDABuilder(key)
 					.addEventListener(new MainListener())
 					.build();
 		} 

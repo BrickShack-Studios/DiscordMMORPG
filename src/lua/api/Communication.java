@@ -1,9 +1,5 @@
 package lua.api;
 
-import org.luaj.vm2.LuaValue;
-
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.MessageChannel;
 import tools.Username;
 import world.Room;
 import world.World;
@@ -29,7 +25,6 @@ public class Communication
 	public boolean whisper(String id, String message)
 	{
 		boolean success = false;
-		///TODO Check that these are representable as strings
 
 		if (World.registered(id))
 		{
@@ -49,6 +44,8 @@ public class Communication
 	 * 
 	 * @see	world.Room
 	 * @see	entity.Player
+	 * 
+	 * @todo Implement this
 	 */
 	public void say(Room location, String message)
 	{
@@ -65,7 +62,9 @@ public class Communication
 	 * @param message	The message to send to the `Player`s.
 	 * 
 	 * @see entity.Player
-	 * @see world.Room	
+	 * @see world.Room
+	 * 
+	 * @todo Implement this
 	 */
 	public void shout(Room location, String message)
 	{

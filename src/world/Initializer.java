@@ -3,8 +3,18 @@ package world;
 import entity.Entity;
 import entity.Item;
 
+/**
+ * The `Initializer` is responsible for building a brand new, clean world.
+ * 
+ * @class
+ */
 public class Initializer
 {
+	/**
+	 * Creates a clean world.
+	 * 
+	 * @see world.World
+	 */
 	public static void init()
 	{
 		Room townCenter = new Room("The Town Center", RoomType.ROOM)

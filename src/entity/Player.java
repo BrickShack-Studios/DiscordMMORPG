@@ -2,7 +2,6 @@ package entity;
 
 import java.util.ArrayList;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
 import world.Door;
 
 /**

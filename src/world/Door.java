@@ -1,14 +1,19 @@
 package world;
 
 /**
- * A `Door` is 
+ * A `Door` is a one-way portal from one `Room` to another.
  * 
  * @class
  */
 public class Door
 {
+	/// The direction the door is in from the player's location in the `Room`.
 	private String direction;
+	
+	/// A description of what this `Door` looks like.
 	private String description;
+	
+	/// A reference to the `Room` this `Door` should lead to.
 	private Room destination;
 	
 	public Door(String direction, String description, Room destination)

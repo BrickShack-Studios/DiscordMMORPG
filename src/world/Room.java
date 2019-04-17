@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import entity.Entity;
 import entity.Item;
 
+/**
+ * A `Room` is a space in which `Entity`s can exist in. They have exits
+ * which take the form of `Door`s and lead to more `Room`s.
+ * 
+ * @see entity.Entity
+ * @see world.Door
+ */
 public class Room
 {
 	private String name;
@@ -23,6 +30,13 @@ public class Room
 		this.entities = new ArrayList();
 	}
 	
+	/**
+	 * Gives a view of the `Room`, listing all `Door`s, `Entity`s, and `Item`s.
+	 * 
+	 * @return A string containing the view from inside the room.
+	 * 
+	 * @todo Add more grammar support, such as `an egg` vs `a toaster`.
+	 */
 	@Override
 	public String toString()
 	{

@@ -2,6 +2,7 @@ package main;
 
 import entity.Player;
 import lua.Parser;
+import lua.api.Communication;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -62,6 +63,9 @@ public class MainListener extends ListenerAdapter
 		String id = event.getAuthor().getId();
 		String username = event.getAuthor().getName();
 		
+		event.getAuthor().openPrivateChannel().queue((dm) ->
+				dm.sendMessage("Text here"));
+		
 		while (content.length() > 0 && 
 				(content.charAt(0) == '>' || content.charAt(0) == ' '))
 		{
@@ -94,7 +98,7 @@ public class MainListener extends ListenerAdapter
 					break;
 				}
 				
-				channel.sendMessage(World.lookupPlayer(id).look()).queue();
+				channel.sendMessage(World.findPlayerByID(id).look()).queue();
 				break;
 				
 			case "goto":
