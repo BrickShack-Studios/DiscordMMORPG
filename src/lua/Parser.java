@@ -8,13 +8,30 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
-import lua.communication.Communication;
+import lua.api.Communication;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+/**
+ * The `Parser` is responsible for running LuaJ code safely, and
+ * for preloading the Java libraries from the {@link lua.api} package
+ * into the LuaJ virtual machines.
+ * 
+ * @class
+ */
 public class Parser
 {
+	/// A regex which can remove the LuaJ code snipped from a player's message.
 	private static Pattern codeExtract = Pattern.compile("(?<=```lua)([\\s\\S]*)(?=```)");
 	
+	/**
+	 * Runs a LuaJ program given as a string at the casting player's location.
+	 * 
+	 * @param program The string to run as LuaJ code.
+	 * 
+	 * @see entity.Player
+	 * @see world.Room
+	 * @see main.MainListener ("cast")
+	 */
 	public static void run(String program)
 	{
 		Globals globals = JsePlatform.standardGlobals();
@@ -29,6 +46,14 @@ public class Parser
 		return;
 	}
 	
+	/**
+	 * Runs a LuaJ snippey given as a string from an enchanted `Item`.
+	 * 
+	 * @param program	The LuaJ snippet to run.
+	 * @param event		The last message the user sent.
+	 * 
+	 * @see entity.Item
+	 */
 	public static void run(String program, MessageReceivedEvent event)
 	{
 		LuaValue luaGlobals = JsePlatform.standardGlobals();
@@ -57,6 +82,14 @@ public class Parser
 		return;
 	}
 	
+	/**
+	 * Takes in a `> cast` command and returns the code snippet alone.
+	 * 
+	 * @param raw	The full user text.
+	 * @return		The LuaJ code snippet contained within, if any.
+	 * 
+	 * @see main.MainListener ("cast")
+	 */
 	public static String extractCode(String raw)
 	{
 		Matcher match = codeExtract.matcher(raw);

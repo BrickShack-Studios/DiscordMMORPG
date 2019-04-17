@@ -2,11 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Luaj"/>
-	<classpathentry kind="lib" path="/home/frank/Programming/Libraries/JDA/JDA-3.8.3_462-withDependencies.jar" sourcepath="/home/frank/Programming/Libraries/JDA/JDA-3.8.3_462-sources.jar">
+	<classpathentry kind="lib" path="lib/JDA-3.8.3_462-withDependencies.jar" sourcepath="lib/JDA-3.8.3_462-sources.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/home/frank/Programming/Libraries/JDA/JDA-3.8.3_462-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/TextAdventureBot/lib/JDA-3.8.3_462-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/luaj-jse-3.0.1.jar" sourcepath="lib/luaj-sources-3.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

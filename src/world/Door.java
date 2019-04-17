@@ -1,5 +1,10 @@
 package world;
 
+/**
+ * A `Door` is 
+ * 
+ * @class
+ */
 public class Door
 {
 	private String direction;

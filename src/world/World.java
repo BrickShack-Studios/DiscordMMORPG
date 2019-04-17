@@ -36,6 +36,7 @@ public class World
 		
 		players.add(p);
 		p.setLocation(rooms.get(0));
+		rooms.get(0).addEntity(p);
 		
 		System.out.println("Added player " + p.getName() + " with id " + p.getID());
 		channel.sendMessage("Welcome to the world, " + p.getName() + 

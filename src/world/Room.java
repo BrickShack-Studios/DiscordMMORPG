@@ -3,7 +3,7 @@ package world;
 import java.util.ArrayList;
 
 import entity.Entity;
-import item.Item;
+import entity.Item;
 
 public class Room
 {
@@ -85,7 +85,7 @@ public class Room
 		{
 			if (d.getDestination().getType() == RoomType.ROOM)
 			{
-				if ("aeiou".contains(d.getDescription()))
+				//if ("aeiou".contains(d.getDescription()))
 				sb.append("To " + d.getDirection() + " lies " + d.getDescription() + "\n");
 			}
 				
@@ -116,6 +116,12 @@ public class Room
 	public Room addEntity(Entity e)
 	{
 		entities.add(e);
+		return this;
+	}
+	
+	public Room removeEntity(Entity e)
+	{
+		entities.remove(e);
 		return this;
 	}
 

@@ -2,9 +2,19 @@ package entity;
 
 import world.Room;
 
+/**
+ * An `Entity` is any "thing" (object, creature, etc) which can exist in a
+ * room. They exist at a location and are named.
+ * 
+ * @see world.Room
+ * @class
+ */
 public class Entity
 {
+	/// The `Room` this `Entity` resides in.
 	protected Room location;
+	
+	/// The name of this `Entity`.
 	protected String name;
 	
 	public Entity(String name)
@@ -40,6 +50,4 @@ public class Entity
 		this.name = name;
 		return this;
 	}
-	
-	
 }

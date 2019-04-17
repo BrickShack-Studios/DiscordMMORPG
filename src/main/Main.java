@@ -11,8 +11,21 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import world.World;
 
+/**
+ * The `Main` class handles the pre-initialization of the bot, such
+ * as connecting to Discord itself.
+ * 
+ * @class
+ */
 public class Main 
 {
+	/**
+	 * Connects the bot to the Discord servers and then initializes the world.
+	 * @param args	Unusued launch arguments
+	 * 
+	 * @see world.World
+	 * @see world.Initializer
+	 */
 	public static void main(String[] args)
 	{
 		JDA api = null;

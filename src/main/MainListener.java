@@ -9,8 +9,16 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import world.World;
 
+/**
+ * The `MainListener` captures all communication available to the bot.
+ * Specifically, it is searching for commands targeted for its parsing.
+ */
 public class MainListener extends ListenerAdapter
 {
+	/**
+	 * Preliminary filtering of messages. Discards messages from bots,
+	 * and messages which don't start with a `>`.
+	 */
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event)
 	{
@@ -40,6 +48,15 @@ public class MainListener extends ListenerAdapter
 		return;
 	}
 	
+	/**
+	 * Given a message which we know for sure is directed at the bot,
+	 * try and figure out which command the user was trying to run.
+	 * 
+	 * @param event		The main message event.
+	 * @param channel	The channel the message came from.
+	 * @param message	The message object itself.
+	 * @param content	The message body.
+	 */
 	private void parseMessage(MessageReceivedEvent event, MessageChannel channel, Message message, String content)
 	{
 		String id = event.getAuthor().getId();
@@ -77,10 +94,20 @@ public class MainListener extends ListenerAdapter
 					break;
 				}
 				
-				World.lookupPlayer(id).look(channel);
+				channel.sendMessage(World.lookupPlayer(id).look()).queue();
 				break;
 				
+			case "goto":
 			case "go":
+				if (!World.registered(id))
+				{
+					channel.sendMessage("Please register first with `> register`!").queue();
+					break;
+				}
+				
+				if (!World.findPlayerByID(id).move(words[1]))
+					channel.sendMessage("You aren't sure where that is.").queue();
+				
 				break;
 				
 			case "cast":

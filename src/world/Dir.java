@@ -1,5 +1,11 @@
 package world;
 
+/**
+ * Shortcuts for directions to use for `Door`s.
+ * 
+ * @see world.Door
+ * @class
+ */
 public class Dir
 {
 	public static final String YN = "your North";
