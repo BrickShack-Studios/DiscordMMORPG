@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import world.World;
-
+import lua.api.Communication;
 /**
  * The `MainListener` captures all communication available to the bot.
  * Specifically, it is searching for commands targeted for its parsing.
@@ -102,6 +102,53 @@ public class MainListener extends ListenerAdapter
 				break;
 				
 			case "goto":
+				break;
+				
+			case "whisper":
+				if (!World.registered(id))
+				{
+					channel.sendMessage("Please register first with `> register`!").queue();
+					break;
+				}
+				
+				else
+				{
+					if (words.length <= 2)
+					{
+						channel.sendMessage("Warning: Not enough information!").queue();
+						break;
+					}
+					
+					String targetUser = ""; int numSpaces = 0;					
+					for(int i = 1; i < words.length - 1; i++)
+					{
+						targetUser += words[i];
+						if (words[i + 1].charAt(0) == '\"')
+							break;
+						targetUser += " ";
+					}
+					
+					for(int i = 0; i < targetUser.length(); i++)
+						if (targetUser.charAt(i) == ' ')
+							numSpaces++;
+					
+					if (World.findPlayerByName(targetUser) != null)
+					{
+						Player target = World.findPlayerByName(targetUser);
+						String msg = "";
+						
+						for(int i = 2 + numSpaces; i < words.length; i++)
+							msg += words[i] + " ";
+						
+						new Communication().whisper(target.getID(), username + ": " + msg);
+						
+					}
+					else
+						channel.sendMessage("The user \'" + targetUser + "\' doesn't exist! Try entering a message surrounded by \"quotation marks\"").queue();
+					
+					break;
+				}
+				
 			case "go":
 				if (!World.registered(id))
 				{

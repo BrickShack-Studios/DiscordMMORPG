@@ -81,6 +81,15 @@ public class World
 		return null;
 	}
 	
+	public static Player findPlayerByName(String username)
+	{
+		for (Player p : players)
+			if (p.getName().equals(username))
+				return p;
+		
+		return null;
+	}
+	
 	public static void addRoom(Room r)
 	{
 		rooms.add(r);
