@@ -1,14 +1,14 @@
 package lua.api;
 
 import tools.Username;
-import world.Room;
 import world.World;
+import world.room.Room;
 
 /**
  * Commands used for communicating textually. Meant to be accessed via the
  * LuaJ interface.
  * 
- * @class
+ * \class
  */
 public class Communication
 {
@@ -42,7 +42,7 @@ public class Communication
 	 * @param location	The `Room` to propagate the message through.
 	 * @param message	The message to send.
 	 * 
-	 * @see	world.Room
+	 * @see	world.room.Room
 	 * @see	entity.Player
 	 * 
 	 * @todo Implement this
@@ -62,7 +62,7 @@ public class Communication
 	 * @param message	The message to send to the `Player`s.
 	 * 
 	 * @see entity.Player
-	 * @see world.Room
+	 * @see world.room.Room
 	 * 
 	 * @todo Implement this
 	 */

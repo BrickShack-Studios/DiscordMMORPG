@@ -2,14 +2,14 @@ package entity;
 
 import java.util.ArrayList;
 
-import world.Door;
+import world.room.Door;
 
 /**
  * A `Player` represents an `Entity` controlled by a human via
  * text commands. `Player`s can influence the world around them in
  * nuanced ways via gameplay.
  * 
- * @class
+ * \class
  */
 public class Player extends Entity
 {
@@ -75,7 +75,6 @@ public class Player extends Entity
 		
 		return false;
 	}
-
 	
 	public String getID()
 	{

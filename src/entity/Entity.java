@@ -1,13 +1,13 @@
 package entity;
 
-import world.Room;
+import world.room.Room;
 
 /**
  * An `Entity` is any "thing" (object, creature, etc) which can exist in a
  * room. They exist at a location and are named.
  * 
- * @see world.Room
- * @class
+ * @see world.room.Room
+ * \class
  */
 public class Entity
 {

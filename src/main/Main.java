@@ -4,13 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import javax.security.auth.login.LoginException;
 
-import lua.Parser;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import world.World;
@@ -19,7 +15,7 @@ import world.World;
  * The `Main` class handles the pre-initialization of the bot, such
  * as connecting to Discord itself.
  * 
- * @class
+ * \class
  */
 public class Main 
 {
@@ -73,7 +69,6 @@ public class Main
 		
 		World.init(api);
 		//Parser.run("");
-		
 
 		System.out.println("Classpaths: ");
         ClassLoader cl = ClassLoader.getSystemClassLoader();

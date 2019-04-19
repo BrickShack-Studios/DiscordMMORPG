@@ -88,7 +88,30 @@ public class MainListener extends ListenerAdapter
 				break;
 				
 			case "register":
-				World.addPlayer(new Player(username, id), channel);
+				if (words.length < 2)
+				{
+					channel.sendMessage("Correct usage: `> register myUsername`").queue();
+					break;
+				}
+				else if (words.length > 2)
+				{
+					channel.sendMessage("Usernames must not contain spaces").queue();
+					break;
+				}
+				
+				Player p = World.findPlayerByID(id);
+				if (p == null)
+				{
+					p = new Player(words[1], id);
+					if (World.addPlayer(p))
+						channel.sendMessage("Welcome to the world, " + p.getName() + 
+								"!\nTry looking around with `> look`").queue();
+					else
+						channel.sendMessage("You're already registered!").queue();
+				}
+				else
+					channel.sendMessage("You're already registered as " + p.getName()).queue();
+				
 				break;
 				
 			case "look":
@@ -101,9 +124,6 @@ public class MainListener extends ListenerAdapter
 				channel.sendMessage(World.findPlayerByID(id).look()).queue();
 				break;
 				
-			case "goto":
-				break;
-				
 			case "whisper":
 				if (!World.registered(id))
 				{
@@ -111,45 +131,31 @@ public class MainListener extends ListenerAdapter
 					break;
 				}
 				
-				else
+				if (words.length < 3)
 				{
-					if (words.length <= 2)
-					{
-						channel.sendMessage("Warning: Not enough information!").queue();
-						break;
-					}
-					
-					String targetUser = ""; int numSpaces = 0;					
-					for(int i = 1; i < words.length - 1; i++)
-					{
-						targetUser += words[i];
-						if (words[i + 1].charAt(0) == '\"')
-							break;
-						targetUser += " ";
-					}
-					
-					for(int i = 0; i < targetUser.length(); i++)
-						if (targetUser.charAt(i) == ' ')
-							numSpaces++;
-					
-					if (World.findPlayerByName(targetUser) != null)
-					{
-						Player target = World.findPlayerByName(targetUser);
-						String msg = "";
-						
-						for(int i = 2 + numSpaces; i < words.length; i++)
-							msg += words[i] + " ";
-						
-						new Communication().whisper(target.getID(), username + ": " + msg);
-						
-					}
-					else
-						channel.sendMessage("The user \'" + targetUser + "\' doesn't exist! Try entering a message surrounded by \"quotation marks\"").queue();
-					
+					channel.sendMessage("Correct usage: `>whisper <username> <message>`").queue();
 					break;
 				}
 				
+				String sendee = words[1];
+				String msg = words[2];
+				for (int i = 3; i < words.length; i++)
+					msg += " " + words[i];
+				
+				Player recipient = World.findPlayerByName(sendee);
+				if (recipient == null)
+				{
+					channel.sendMessage("Player " + sendee + " not found.").queue();
+					break;
+				}
+				
+				String sender = World.findPlayerByID(id).getName();
+				new Communication().whisper(recipient.getID(), sender + ": " + msg);
+				
+				break;
+			
 			case "go":
+			case "goto":
 				if (!World.registered(id))
 				{
 					channel.sendMessage("Please register first with `> register`!").queue();

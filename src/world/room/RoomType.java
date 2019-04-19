@@ -1,4 +1,4 @@
-package world;
+package world.room;
 
 /**
  * A collection of types that `Room`s can take the form of.

@@ -1,9 +1,9 @@
-package world;
+package world.room;
 
 /**
  * A `Door` is a one-way portal from one `Room` to another.
  * 
- * @class
+ * \class
  */
 public class Door
 {

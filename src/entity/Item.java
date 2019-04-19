@@ -6,7 +6,7 @@ import java.util.Map;
  * An `Item` represents a special `Entity` in the game which is 
  * enchantable and holdable by some other `Entity`.
  * 
- * @class
+ * \class
  */
 public class Item extends Entity
 {
