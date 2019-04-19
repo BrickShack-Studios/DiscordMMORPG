@@ -16,7 +16,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
  * for preloading the Java libraries from the {@link lua.api} package
  * into the LuaJ virtual machines.
  * 
- * @class
+ * \class
  */
 public class Parser
 {
@@ -29,7 +29,7 @@ public class Parser
 	 * @param program The string to run as LuaJ code.
 	 * 
 	 * @see entity.Player
-	 * @see world.Room
+	 * @see world.room.Room
 	 * @see main.MainListener ("cast")
 	 */
 	public static void run(String program)

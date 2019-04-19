@@ -1,10 +1,10 @@
-package world;
+package world.room;
 
 /**
  * Shortcuts for directions to use for `Door`s.
  * 
- * @see world.Door
- * @class
+ * @see world.room.Door
+ * \class
  */
 public class Dir
 {
