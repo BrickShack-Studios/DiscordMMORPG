@@ -32,7 +32,7 @@ public class Initializer
 		townCenter.addExit(new Door(Dir.YN, "a house", aHouse));
 		
 		World.addRoom(townCenter);
-
+		
 		return;
 	}
 }

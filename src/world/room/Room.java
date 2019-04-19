@@ -194,4 +194,12 @@ public class Room
 		return this;
 	}
 	
+	public Item searchItem(ArrayList<Item> items, String name)
+	{
+		for (Item i : items)
+			if (i.getName().equals(name))
+				return i;
+		
+		return null;		
+	}
 }

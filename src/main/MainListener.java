@@ -9,7 +9,11 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import world.World;
-import lua.api.Communication;
+import world.Room;
+
+import java.util.ArrayList;
+
+import entity.Item;
 /**
  * The `MainListener` captures all communication available to the bot.
  * Specifically, it is searching for commands targeted for its parsing.
@@ -123,7 +127,7 @@ public class MainListener extends ListenerAdapter
 				
 				channel.sendMessage(World.findPlayerByID(id).look()).queue();
 				break;
-				
+
 			case "whisper":
 				if (!World.registered(id))
 				{
@@ -153,6 +157,37 @@ public class MainListener extends ListenerAdapter
 				new Communication().whisper(recipient.getID(), sender + ": " + msg);
 				
 				break;
+				
+			case "pickup":
+				ArrayList<Item> lst = World.findPlayerByID(id).getLocation().getItems();
+				if (words.length <= 1)
+				{
+					channel.sendMessage("Warning: Not enough information!").queue();
+					break;
+				}
+				
+				String itemName = "";
+				for (int i = 1; i < words.length; i++)
+				{
+					itemName += words[i];
+					if (i == words.length - 1)
+						break;
+					itemName += " ";					
+				}
+				
+				Item item = World.findPlayerByID(id).getLocation().searchItem(lst, itemName);
+				if (item!= null)
+				{
+					World.findPlayerByID(id).addItem(item);
+					channel.sendMessage("You have picked up the " + itemName + "!").queue();
+					lst.remove(item);
+					break;
+				}
+				else
+				{
+					channel.sendMessage(itemName + " not found!").queue();
+					break;
+				}
 			
 			case "go":
 			case "goto":

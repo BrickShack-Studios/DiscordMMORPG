@@ -76,6 +76,12 @@ public class Player extends Entity
 		return false;
 	}
 	
+	public void addItem(Item item)
+	{
+		inventory.add(item);
+		return;
+	}
+	
 	public String getID()
 	{
 		return id;
