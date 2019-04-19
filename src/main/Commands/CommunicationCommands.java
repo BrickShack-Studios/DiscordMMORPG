@@ -7,6 +7,13 @@ import world.World;
 
 public class CommunicationCommands
 {
+	/**
+	 * The 'whisper' method allows the Player to communicate with another Player
+	 * as long as 
+	 * @param id
+	 * @param words
+	 * @param channel
+	 */
 	public static void whisper(String id, String[] words, MessageChannel channel)
 	{
 		if (words.length < 3)

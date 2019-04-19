@@ -6,6 +6,14 @@ import world.World;
 
 public class AdministrativeCommands
 {
+	/**
+	 * The 'register' method allows a user to register with a username of its
+	 * choosing as long as it is considered valid and doesn't exist already.
+	 * 
+	 * @param id is the Player's ID.
+	 * @param words is the input from the Player.
+	 * @param channel is the basic output for the bot.
+	 */
 	public static void register(String id, String[] words, MessageChannel channel)
 	{
 		if (words.length < 2)

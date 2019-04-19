@@ -155,7 +155,13 @@ public class MainListener extends ListenerAdapter
 			case "pickup":
 				InteractionCommands.pickup(id, words, channel);
 				return true;
-			
+				
+			case "drop":
+				InteractionCommands.drop(id, words, channel);
+				return true;
+			case "inventory":
+				InteractionCommands.viewInventory(id, channel);
+				return true;
 			case "go":
 			case "goto":
 				InteractionCommands.go(id, words[1], channel);

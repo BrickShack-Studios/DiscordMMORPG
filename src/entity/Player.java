@@ -76,14 +76,29 @@ public class Player extends Entity
 		return false;
 	}
 	
+	public String getID()
+	{
+		return id;
+	}
+	
 	public void addItem(Item item)
 	{
 		inventory.add(item);
 		return;
 	}
 	
-	public String getID()
+	
+	public ArrayList<Item> getInventory()
 	{
-		return id;
+		return this.inventory;
+	}
+	
+	public Item searchInventory(String itemName)
+	{
+		for (Item i : this.inventory)
+			if (i.getName().equals(itemName))
+				return i;
+		
+		return null;	
 	}
 }
