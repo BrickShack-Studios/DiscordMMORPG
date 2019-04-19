@@ -1,19 +1,15 @@
 package main;
 
-import entity.Player;
 import lua.Parser;
-import lua.api.Communication;
+import main.Commands.AdministrativeCommands;
+import main.Commands.CommunicationCommands;
+import main.Commands.InteractionCommands;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import world.World;
-import world.Room;
-
-import java.util.ArrayList;
-
-import entity.Item;
 /**
  * The `MainListener` captures all communication available to the bot.
  * Specifically, it is searching for commands targeted for its parsing.
@@ -65,7 +61,6 @@ public class MainListener extends ListenerAdapter
 	private void parseMessage(MessageReceivedEvent event, MessageChannel channel, Message message, String content)
 	{
 		String id = event.getAuthor().getId();
-		String username = event.getAuthor().getName();
 		
 		event.getAuthor().openPrivateChannel().queue((dm) ->
 				dm.sendMessage("Text here"));
@@ -83,137 +78,96 @@ public class MainListener extends ListenerAdapter
 			System.out.println("Warning: Empty command");
 			return;
 		}
-			
+		
+		if (!unregisteredCommand(event, channel, words))
+		{
+			if (!World.registered(id))
+			{
+				channel.sendMessage("Please register first with `> register`!").queue();
+				return;
+			}
+			else
+			{
+				if (!registeredCommand(event, channel, words))
+					channel.sendMessage("You don't know what that means").queue();
+			}
+		}
+		
+		return;
+	}
+	
+	/**
+	 * Tries to see if the user ran a command which does not require
+	 * registration.
+	 * 
+	 * @param event		The message event.
+	 * @param channel	The channel the message was sent in.
+	 * @param message	The message event.
+	 * @param words		The preparsed word list.
+	 * @return			True if a command was run, false otherwise.
+	 */
+	private static boolean unregisteredCommand(MessageReceivedEvent event,
+												MessageChannel channel, 
+												String[] words)
+	{
+		String id = event.getAuthor().getId();
 		
 		switch(words[0])
 		{
 			case "ping":
 				channel.sendMessage("pong!").queue();
-				break;
+				return true;
 				
 			case "register":
-				if (words.length < 2)
-				{
-					channel.sendMessage("Correct usage: `> register myUsername`").queue();
-					break;
-				}
-				else if (words.length > 2)
-				{
-					channel.sendMessage("Usernames must not contain spaces").queue();
-					break;
-				}
+				AdministrativeCommands.register(id, words, channel);
+				return true;
 				
-				Player p = World.findPlayerByID(id);
-				if (p == null)
-				{
-					p = new Player(words[1], id);
-					if (World.addPlayer(p))
-						channel.sendMessage("Welcome to the world, " + p.getName() + 
-								"!\nTry looking around with `> look`").queue();
-					else
-						channel.sendMessage("You're already registered!").queue();
-				}
-				else
-					channel.sendMessage("You're already registered as " + p.getName()).queue();
-				
-				break;
-				
+			default:
+				return false;
+		}
+	}
+	
+	/**
+	 * Tries to see if the user ran a command which requires registration.
+	 * 
+	 * @param event		The message event.
+	 * @param channel	The channel the message was sent in.
+	 * @param message	The message event.
+	 * @param words		The preparsed word list.
+	 * @return			True if a command was run, false otherwise.
+	 */
+	private static boolean registeredCommand(MessageReceivedEvent event, 
+											  MessageChannel channel,
+											  String[] words)
+	{
+		String id = event.getAuthor().getId();
+		
+		switch(words[0])
+		{
 			case "look":
-				if (!World.registered(id))
-				{
-					channel.sendMessage("Please register first with `> register`!").queue();
-					break;
-				}
-				
-				channel.sendMessage(World.findPlayerByID(id).look()).queue();
-				break;
+				InteractionCommands.look(id, channel);
+				return true;
 
 			case "whisper":
-				if (!World.registered(id))
-				{
-					channel.sendMessage("Please register first with `> register`!").queue();
-					break;
-				}
-				
-				if (words.length < 3)
-				{
-					channel.sendMessage("Correct usage: `>whisper <username> <message>`").queue();
-					break;
-				}
-				
-				String sendee = words[1];
-				String msg = words[2];
-				for (int i = 3; i < words.length; i++)
-					msg += " " + words[i];
-				
-				Player recipient = World.findPlayerByName(sendee);
-				if (recipient == null)
-				{
-					channel.sendMessage("Player " + sendee + " not found.").queue();
-					break;
-				}
-				
-				String sender = World.findPlayerByID(id).getName();
-				new Communication().whisper(recipient.getID(), sender + ": " + msg);
-				
-				break;
+				CommunicationCommands.whisper(id, words, channel);
+				return true;
 				
 			case "pickup":
-				ArrayList<Item> lst = World.findPlayerByID(id).getLocation().getItems();
-				if (words.length <= 1)
-				{
-					channel.sendMessage("Warning: Not enough information!").queue();
-					break;
-				}
-				
-				String itemName = "";
-				for (int i = 1; i < words.length; i++)
-				{
-					itemName += words[i];
-					if (i == words.length - 1)
-						break;
-					itemName += " ";					
-				}
-				
-				Item item = World.findPlayerByID(id).getLocation().searchItem(lst, itemName);
-				if (item!= null)
-				{
-					World.findPlayerByID(id).addItem(item);
-					channel.sendMessage("You have picked up the " + itemName + "!").queue();
-					lst.remove(item);
-					break;
-				}
-				else
-				{
-					channel.sendMessage(itemName + " not found!").queue();
-					break;
-				}
+				InteractionCommands.pickup(id, words, channel);
+				return true;
 			
 			case "go":
 			case "goto":
-				if (!World.registered(id))
-				{
-					channel.sendMessage("Please register first with `> register`!").queue();
-					break;
-				}
-				
-				if (!World.findPlayerByID(id).move(words[1]))
-					channel.sendMessage("You aren't sure where that is.").queue();
-				
-				break;
+				InteractionCommands.go(id, words[1], channel);
+				return true;
 				
 			case "cast":
-				if (!World.registered(id))
-				{
-					channel.sendMessage("Please register first with `> register`!").queue();
-					break;
-				}
-				Parser.run(Parser.extractCode(content));
-				break;
+				Parser.run(Parser.extractCode(event.getMessage().getContentRaw()));
+				return true;
 				
 			default:
 				System.out.println("Warning: Unknown comand header " + words[0]);
-				return;
+				return false;
 		}
 	}
 }
