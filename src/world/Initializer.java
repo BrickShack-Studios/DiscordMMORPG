@@ -21,13 +21,14 @@ public class Initializer
 							.addEntity(new Entity("Dummy"))
 							.addItem(new Item("Thing", 0, 1));
 		
-		Room aHouse = new Room("A House", RoomType.BUILDING)
-						.addExit(new Door(Dir.YS, "a door", townCenter));
+		Room aHouse = new Room("A House", RoomType.ROOM)						
+						.addExit(new Door(Dir.YS, "a door", townCenter))
+						.addItem(new Item("Lamp", 5, 5));
 		
 		townCenter.addExit(new Door(Dir.YN, "a house", aHouse));
 		
 		World.addRoom(townCenter);
-
+		
 		return;
 	}
 }
