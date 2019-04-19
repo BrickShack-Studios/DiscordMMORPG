@@ -1,4 +1,4 @@
-package world;
+package world.room;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import entity.Item;
  * which take the form of `Door`s and lead to more `Room`s.
  * 
  * @see entity.Entity
- * @see world.Door
+ * @see world.room.Door
  */
 public class Room
 {

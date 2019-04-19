@@ -3,7 +3,7 @@ package tools;
 /**
  * A collection of functions for working with usernames in text.
  * 
- * @class
+ * \class
  */
 public class Username
 {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import entity.Player;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.MessageChannel;
+import world.room.Room;
 
 /**
  * The `World` is the universe, as far as the game is concerned. All
@@ -43,13 +44,12 @@ public class World
 	 * 
 	 * @see entity.Player
 	 */
-	public static void addPlayer(Player p, MessageChannel channel)
+	public static boolean addPlayer(Player p)
 	{
 		if (registered(p.getID()))
 		{
-			channel.sendMessage("You're already registered!").queue();
 			System.out.println("Warning: Preregistered user tried registering");
-			return;
+			return false;
 		}
 		
 		players.add(p);
@@ -57,10 +57,8 @@ public class World
 		rooms.get(0).addEntity(p);
 		
 		System.out.println("Added player " + p.getName() + " with id " + p.getID());
-		channel.sendMessage("Welcome to the world, " + p.getName() + 
-				"!\nTry looking around with `> look`").queue();
 		
-		return;
+		return true;
 	}
 	
 	/**
